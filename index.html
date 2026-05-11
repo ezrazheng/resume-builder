@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Edit and export a simple print-ready resume in the browser.">
+  <title>Resume builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="topbar-brand-dot" aria-hidden="true"></span>
+      Resume builder
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-group">
+        <span class="tb-lbl">Name</span>
+        <div class="tb-font-row">
+          <input type="range" min="12" max="16" step="0.5" id="nameSlider" oninput="setNameFont(this.value)">
+          <span id="nameVal">14pt</span>
+        </div>
+      </div>
+      <div class="topbar-group">
+        <span class="tb-lbl">Body</span>
+        <div class="tb-font-row">
+          <input type="range" min="9" max="14" step="0.5" id="bodySlider" oninput="setBodyFont(this.value)">
+          <span id="bodyVal">11pt</span>
+        </div>
+      </div>
+      <div class="topbar-divider" aria-hidden="true"></div>
+      <div class="topbar-group">
+        <span class="tb-lbl">Paper</span>
+        <select class="tb-select" id="paperSel" onchange="setPaper(this.value)">
+          <option value="letter">Letter</option>
+          <option value="a4">A4</option>
+        </select>
+      </div>
+      <div class="topbar-divider" aria-hidden="true"></div>
+      <button type="button" class="btn-pdf" onclick="exportPDF()">↓ PDF</button>
+      <button type="button" class="btn-pdf" id="btnDOCX" onclick="exportDOCX()">↓ Word</button>
+      <div class="topbar-divider" aria-hidden="true"></div>
+      <button type="button" class="btn-primary btn-backup" onclick="backupData()">↓ Backup</button>
+      <div class="topbar-divider" aria-hidden="true"></div>
+      <div class="btn-theme-toggle-wrap">
+        <button type="button" class="btn-theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle theme">☀︎</button>
+        <div class="btn-theme-tooltip">Click to switch: Light -> Dark -> Dark Resume</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="main">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-header-title">Sections</div>
+      </div>
+      <button type="button" class="btn-add-sec" onclick="openAddSection()">
+        <span class="btn-add-sec-icon">+</span>
+        Add section
+      </button>
+      <div class="sec-list" id="secList"></div>
+      <div class="sidebar-footer">
+        <button type="button" class="btn-import" onclick="openImport()">↑ Import resume</button>
+        <button type="button" class="btn-ghost btn-danger" onclick="clearAll()">
+          <span class="sidebar-clear-icon" aria-hidden="true">✕</span> Clear all
+        </button>
+      </div>
+    </aside>
+
+    <section class="editor" aria-label="Editor">
+      <div class="editor-body" id="editorBody">
+        <div class="empty-hint">
+          <div class="empty-hint-icon" aria-hidden="true">✦</div>
+          <div class="empty-hint-text">Select a section on the left<br>to start editing your resume</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="preview-area" id="previewArea" aria-label="Preview">
+      <div class="resume-sheet" id="resumeSheet"></div>
+      <div id="pageIndicator" class="page-indicator"></div>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+<script src="js/app-core.js"></script>
+<script src="js/import-parser.js"></script>
+<script src="js/render-export.js"></script>
+<script src="js/app-init.js"></script>
+</body>
+</html>
